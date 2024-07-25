@@ -38,15 +38,23 @@ hr{
 }
 
 /* costom booster div */
-.booster,.Task{
-  margin-top: 2rem;
+.booster{
+  padding: 0 0 2.5rem 0;
+}
+.Task{
+  padding: 0 0 2rem 0;
 }
 
-.booster h2,.Task h2{
+.booster h2{
 border-top: 2px dotted rgba(172, 172, 172, 0.244);
-  margin-bottom: 2.4rem;
-  padding-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding-top: 1rem;
 }
+.Task h2{
+    margin-bottom: 2.4rem;
+    padding-top: 1.2rem;
+    font-size: 1rem;
+  }
 
 .Ref_box{
   border-top: 2px dotted rgba(172, 172, 172, 0.244);
