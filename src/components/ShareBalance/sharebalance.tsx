@@ -1,15 +1,14 @@
-import React, {useEffect, useState} from "react";
-import './displayStats.css';
+import React, { useEffect, useState } from "react";
+import "./ShareBalanceStats.css";
 
-export function DisplayStats(props : {
-  clickIncrement : number, 
-  autoIncrement: number,
-  balanceRef: React.MutableRefObject<{value: number;}>,
-  refillRate: number,
-}){
-
-  function addcomma(x:any) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+export function ShareBal(props: {
+  clickIncrement: number;
+  autoIncrement: number;
+  balanceRef: React.MutableRefObject<{ value: number }>;
+  refillRate: number;
+}) {
+  function addcomma(x: any) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
   const formatNumber = (n: number) => {
     if (n < 1e6) return n;
@@ -34,15 +33,26 @@ export function DisplayStats(props : {
     }, 10);
 
     return () => clearInterval(interval);
-  })
+  });
 
-  return(
-    <div className="stats">
-      <h1>Balance: {addcomma(formatNumber(Math.trunc(displayBalance)))}</h1>
-      <div className="row">
-        <div className="col-6"><p><span> Profit:</span> {addcomma(formatNumber(props.autoIncrement*3600))} /h</p></div>
-      <div className="col-6"> <p><span>Refill Rate :</span> {props.refillRate}/s</p></div>
-      </div>
+  return (
+    <div className="sharestats">
+        <div>
+          <p style={{
+            margin:'0'
+          }}>
+            <span>Share Balance:</span>
+            {addcomma(formatNumber(Math.trunc(displayBalance)))}
+          </p>
+        </div>
+        <div>
+          <p style={{
+            margin:'0'
+          }}>
+            <span>Profit:</span>{" "}
+            {addcomma(formatNumber(props.autoIncrement * 3600))} /h
+          </p>
+        </div>
     </div>
-  )
+  );
 }

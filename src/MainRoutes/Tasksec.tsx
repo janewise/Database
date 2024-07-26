@@ -2,16 +2,12 @@ import React, { useRef, useEffect, useReducer, useState } from "react";
 //for ts
 import UpgradeState from "../classes/upgradeState";
 import UpgradeEnergy from "../classes/upgradeEnergy";
-//
-import { ClickHandler } from "../components/clickHandler";
-import { DisplayStats } from "../components/displayStats";
-import { SaveGame } from "../components/saveGame";
-//for booster
-import UpgradeClick from "../components/click/upgradeClick";
+//for Task
+import Task from "../components/TaskandReward/task";
+//fire base
+//import { sendUserDataToFirebase,updateUserAutoIncrementInFirebase} from '../firebaseFunctions';
 
-import { sendUserDataToFirebase,updateUserAutoIncrementInFirebase} from '../firebaseFunctions';
-
-export function Coin() {
+export function Tasksec() {
   const balanceRef = useRef({ value: 0 });
   const forceUpdate = useReducer(x => x + 1, 0)[1];
 
@@ -83,7 +79,7 @@ export function Coin() {
       if (user) {
         const id = user.id.toString();
         setUserId(user.id.toString());
-        sendUserDataToFirebase(id, autoIncrement);
+        //sendUserDataToFirebase(id, autoIncrement);
       }
     };
 
@@ -105,7 +101,7 @@ export function Coin() {
 
   const upgradeMap = useRef(new Map<string, UpgradeState>([
     ['clickUpgrade', new UpgradeState(15, 1.1, 1, 1)],
-    ['autoClicker01', new UpgradeState(80, 1.15, 0, 1)],
+    ['autoClicker01', new UpgradeState(80, 1.15, 0, 0.1)],
     ['autoClicker02', new UpgradeState(200, 1.15, 0, 3)],
     ['autoClicker03', new UpgradeState(1100, 1.15, 0, 8)],
     ['autoClicker04', new UpgradeState(12000, 1.15, 0, 45)],
@@ -134,11 +130,11 @@ export function Coin() {
     ) * 100) / 100;
 
     //database
-    useEffect(() => {
-      if (userId !== null) {
-        updateUserAutoIncrementInFirebase(userId, autoIncrement);
-      }
-    }, [autoIncrement]);
+    // useEffect(() => {
+    //   if (userId !== null) {
+    //     updateUserAutoIncrementInFirebase(userId, autoIncrement);
+    //   }
+    // }, [autoIncrement]);
 //databse
 
   useEffect(() => {
@@ -207,67 +203,41 @@ export function Coin() {
     <>
       <div className="overlay">
         <div className="container-fluid">
-         
-              <ClickHandler
+          <div className=" Task row">
+            <h2>Follow Our Social And Get More Coin </h2>
+            <div className="col-sm col-md-6 col-lg-4">
+              <Task
+                name="Follow on 1000Telegram"
+                reward={1000}
+                show="1000"
+                link="https://telegram.me"
                 balanceRef={balanceRef}
-                increment={upgradeMap.current.get('clickUpgrade')!.increment}
-                energy={energy}
-                maxEnergy={maxEnergy}
-                setEnergy={setEnergy}
+                onRewardClaimed={handleRewardClaimed}
               />
-              <DisplayStats 
-                balanceRef={balanceRef}
-                clickIncrement={upgradeMap.current.get('clickUpgrade')!.increment}
-                autoIncrement={autoIncrement}
-                refillRate={refillRate}
-              />
-              <SaveGame 
-                balanceRef={balanceRef}
-                upgradeMap={upgradeMap}
-               upgradeEnergyMap={upgradeEnergyMap} 
-              />
-
-          {/*2r second row for Booster */}
-          <div className="booster">
-            <h2>Booster</h2>
-              <UpgradeClick
-                id="clickUpgrade"
-                name="Tab Booster"
-                level={upgradeMap.current.get('clickUpgrade')!.level}
-                cost={upgradeMap.current.get('clickUpgrade')!.currentCost}
-                increment={upgradeMap.current.get('clickUpgrade')!.incrementAdd}
-                balance={balanceRef.current.value}
-                autoIncrementTotal={autoIncrement}
-                clickHandler={(id) => { upgradeInvocationHandler(id, upgradeMap, upgradeEnergyMap, balanceRef, setMaxEnergy, setRefillRate); }}
-              /> 
-            {/* <div className="col-sm-6 col-md-6 col-lg-4">
-            <EnergyFill
-                id="energyfill"
-                name="Energy Refill"
-              
-                level={upgradeEnergyMap.current.get('energyfill')!.level}
-                cost={upgradeEnergyMap.current.get('energyfill')!.currentCost}
-                increment={upgradeEnergyMap.current.get('energyfill')!.energyRefillIncrement}
-                balance={balanceRef.current.value}
-                autoIncrementTotal={autoIncrement}
-                clickHandler={(id) => { upgradeInvocationHandler(id, upgradeMap, upgradeEnergyMap, balanceRef, setMaxEnergy, setRefillRate); }}
-              /> 
             </div>
-            <div className="col-sm-6 col-md-6 col-lg-4">
-            <UpgradePool
-              id="energyPool"
-              name="Energy Pool"
-              level={upgradeEnergyMap.current.get('energyPool')!.level}
-              cost={upgradeEnergyMap.current.get('energyPool')!.currentCost}
-              increment={upgradeEnergyMap.current.get('energyPool')!.maxEnergyIncrement}
-              balance={balanceRef.current.value}
-              autoIncrementTotal={autoIncrement}
-              clickHandler={(id) => { upgradeInvocationHandler(id, upgradeMap, upgradeEnergyMap, balanceRef, setMaxEnergy, setRefillRate); }}
-            />
-            </div> */}
+            <div className="col-sm col-md-6 col-lg-4">
+              <Task
+                name="Follow on 1000"
+                reward={1000}
+                show="1000"
+                link="https://telegram.me"
+                balanceRef={balanceRef}
+                onRewardClaimed={handleRewardClaimed}
+              />
+            </div>
+            <div className="col-sm col-md-6 col-lg-4">
+              <Task
+                name="Follow on U-1000"
+                reward={1000}
+                show="1000"
+                link="https://telegram.me"
+                balanceRef={balanceRef}
+                onRewardClaimed={handleRewardClaimed}
+              />
+            </div>
           </div>
         </div>
       </div>
     </>
-  )
+  );
 }

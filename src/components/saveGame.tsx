@@ -125,7 +125,7 @@ export function SaveGame(props: {
   return(
     <>
       <Button className='savehide' onClick={handleSave} style={{margin: "10px 10px 30px 10px"}} variant="contained">Save</Button> <br/>
-       <Button  onClick={handleOpen} size="small" style={{margin: "10px"}} variant="contained" color="error">Wipe save</Button> 
+       <Button className='savehide' onClick={handleOpen} size="small" style={{margin: "10px"}} variant="contained" color="error">Wipe save</Button> 
       <Modal
         open={open}
         onClose={handleClose}

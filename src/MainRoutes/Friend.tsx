@@ -5,7 +5,7 @@ import React, { useRef, useEffect, useReducer, useState } from "react";
 // //
 // import { SaveGame } from "../components/saveGame";
 //for Task
-import Refer from "../components/OtherDiv/ref";
+import Refer from "../components/RefFriends/ref";
 //fire base
 //import { sendUserDataToFirebase,updateUserAutoIncrementInFirebase} from '../firebaseFunctions';
 

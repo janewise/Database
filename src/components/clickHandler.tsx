@@ -110,7 +110,9 @@ export function ClickHandler(props: {
         </div>
       ))}
       <div style={{ position: 'relative', bottom: -13, color: ' #ffffffbe', fontSize: 26, fontWeight: 500, letterSpacing: 2 }}>
-        Energy : <span></span>{props.energy}/{props.maxEnergy}
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="gold" className="bi bi-lightning-fill" viewBox="0 0 16 16">
+  <path d="M5.52.359A.5.5 0 0 1 6 0h4a.5.5 0 0 1 .474.658L8.694 6H12.5a.5.5 0 0 1 .395.807l-7 9a.5.5 0 0 1-.873-.454L6.823 9.5H3.5a.5.5 0 0 1-.48-.641z"/>
+</svg> <span></span>{props.energy}/{props.maxEnergy}
       </div>
     </>
   );

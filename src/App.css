@@ -25,7 +25,12 @@ hr{
 }
 
 .center{
- padding: 0 !important;
+ padding: 0rem 0 1.5rem 0 !important;
+ min-height: 80vh;
+ margin-top: 8rem;
+ background-color: rgba(19, 19, 19, 0.6);
+ padding-top: 1rem !important;
+ border-radius: 20px 20px 0 0;
 }
 
 @-webkit-keyframes fadeIn {
