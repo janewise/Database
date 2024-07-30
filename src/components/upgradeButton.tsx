@@ -86,7 +86,7 @@ const UpgradeButton: FunctionComponent<ButtonProps> = (props: ButtonProps) => {
             </div>
           </Typography>
       }>
-        <span style={{height: "70px", display: "inline-block", margin: "10px", padding: '0'}}>
+        <span style={{height: "70px", display: "inline-block", margin: "5px", padding: '0'}}>
           <Button
             variant="outlined"
             sx={buttonSX}

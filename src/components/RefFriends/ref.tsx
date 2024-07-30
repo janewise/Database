@@ -18,8 +18,8 @@ const Refer: React.FC<ReferProps> = ({ userId, balanceRef, onRewardClaimed }) =>
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [formVisible, setFormVisible] = useState<boolean>(true);
 
-  const inviteLink = `https://t.me/ReferBoxtest_bot    (Reffer Code:${userId})`;
-  const sharelink = `https://t.me/share/url?url=https://t.me/ReferBoxtest_bot (Reffer Code:${userId})`;
+  const inviteLink = `https://t.me/databasetest01_bot    (Reffer Code:${userId})`;
+  const sharelink = `https://t.me/share/url?url=https://t.me/databasetest01_bot (Reffer Code:${userId})`;
 
   const handleInviteClick = () => {
     window.Telegram.WebApp.openLink(sharelink);
@@ -118,7 +118,7 @@ const Refer: React.FC<ReferProps> = ({ userId, balanceRef, onRewardClaimed }) =>
             required 
           />
           {errorMessage && <p className='error-message'>{errorMessage}</p>}
-          <button type='submit' className='referbutton'>Submit</button>
+          <button type='submit' className='refersubmitbutton'>Submit</button>
         </form>
       )}
     </div>

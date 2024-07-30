@@ -1,7 +1,3 @@
-
-
-
-
 import React, { useRef, useEffect, useReducer, useState } from "react";
 //for ts
 import UpgradeState from "../classes/upgradeState";
@@ -12,6 +8,9 @@ import RefUpgradeButton from "../components/refUpgradebutton"
 import { ShareBal } from "../components/ShareBalance/sharebalance";
 import { SaveGame } from "../components/saveGame";
 
+import { sendUserDataToFirebase,updateUserAutoIncrementInFirebase} from '../firebaseFunctions';
+
+
 export function Refmine() {
   const balanceRef = useRef({ value: 0 });
   const forceUpdate = useReducer(x => x + 1, 0)[1];
@@ -20,9 +19,56 @@ export function Refmine() {
   const [maxEnergy, setMaxEnergy] = useState(100);
   const [refillRate, setRefillRate] = useState(1);
   const [lastUpdated, setLastUpdated] = useState(Date.now());
-//    //user
-   const [userId, setUserId] = useState<string | null>(null);
+   //user
+  const [userId, setUserId] = useState<string | null>(null);
 
+  const [isInitialLoad, setIsInitialLoad] = useState(true); // Flag to check if initial load is done
+
+  // Load state from localStorage on mount For energy and autoincrement on window close
+  useEffect(() => {
+    const storedEnergy = localStorage.getItem('energy');
+    const storedMaxEnergy = localStorage.getItem('maxEnergy');
+    const storedRefillRate = localStorage.getItem('refillRate');
+    const storedLastUpdated = localStorage.getItem('lastUpdated');
+//down is for autoincrement
+ const storedBalance = localStorage.getItem('balance');
+ const storedAutoIncrement = localStorage.getItem('autoIncrement');
+
+    if (storedEnergy && storedMaxEnergy && storedRefillRate && storedLastUpdated && storedBalance && storedAutoIncrement) {
+      const timePassed = (Date.now() - parseInt(storedLastUpdated, 10)) / 1000; // time in seconds
+      console.log("timePassed (seconds):", timePassed);
+
+      const storedRefillRateNum = parseInt(storedRefillRate, 10);
+      const calculatedEnergy = Math.min(parseInt(storedEnergy, 10) + Math.floor(timePassed * storedRefillRateNum), parseInt(storedMaxEnergy, 10));
+      
+      console.log("calculatedEnergy:", calculatedEnergy);
+
+      setEnergy(calculatedEnergy);
+      setMaxEnergy(parseInt(storedMaxEnergy, 10));
+      setRefillRate(storedRefillRateNum);
+      setLastUpdated(Date.now());
+
+//dowm is for autoincrement time on offline
+    const storedAutoIncrementNum = parseFloat(storedAutoIncrement);
+     const calculatedBalance = parseFloat(storedBalance) + Math.min(storedAutoIncrementNum * timePassed, storedAutoIncrementNum * 7200);
+     balanceRef.current.value = Math.round(calculatedBalance * 100) / 100;
+    }
+    setIsInitialLoad(false); // Set initial load flag to false after loading from localStorage
+  }, []);
+
+  // Save state to localStorage only after the initial load is complete
+  useEffect(() => {
+    if (!isInitialLoad) {
+      localStorage.setItem('energy', energy.toString());
+      localStorage.setItem('maxEnergy', maxEnergy.toString());
+      localStorage.setItem('refillRate', refillRate.toString());
+      localStorage.setItem('lastUpdated', lastUpdated.toString());
+ //down is auto increment
+      localStorage.setItem('balance', balanceRef.current.value.toString());
+      localStorage.setItem('autoIncrement', autoIncrement.toString());
+
+    }
+  }, [energy, maxEnergy, refillRate, lastUpdated, isInitialLoad]);
   useEffect(() => {
     // Initialize the Telegram Web App SDK
     const initTelegram = () => {
@@ -34,11 +80,11 @@ export function Refmine() {
 
       const user = tg.initDataUnsafe?.user;
 
-       if (user) {
-         const id = user.id.toString();
-         setUserId(user.id.toString());
-      //   sendUserDataToFirebase(id, autoIncrement);
-       }
+      if (user) {
+        const id = user.id.toString();
+        setUserId(user.id.toString());
+        sendUserDataToFirebase(id, autoIncrement);
+      }
     };
 
     if (window.Telegram) {
@@ -54,6 +100,7 @@ export function Refmine() {
     };
   }, []);
 
+  
 //up is user
 
   const upgradeMap = useRef(new Map<string, UpgradeState>([
@@ -85,6 +132,14 @@ export function Refmine() {
       upgradeMap.current.get('refClicker01')!.increment +
       upgradeMap.current.get('refClicker02')!.increment
     ) * 100) / 100;
+
+    //database
+    useEffect(() => {
+      if (userId !== null) {
+        updateUserAutoIncrementInFirebase(userId, autoIncrement);
+      }
+    }, [autoIncrement]);
+//databse
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -126,6 +181,10 @@ export function Refmine() {
     }
   }
 
+  const handleRewardClaimed = () => {
+    forceUpdate(); // Force an update to reflect the new balance
+  };
+
   return (
     <>
               <SaveGame
@@ -140,7 +199,7 @@ export function Refmine() {
             refillRate={refillRate}
           />
               <div className="row center">
-                <div className=" col-6 col-sm-6 col-md-6 col-lg-6">
+                <div className=" col-6">
                 <RefUpgradeButton
                     id="refClicker01"
                     name="REfer01"
@@ -154,7 +213,7 @@ export function Refmine() {
                     clickHandler={(id) => { upgradeInvocationHandler(id, upgradeMap, upgradeEnergyMap, balanceRef, setMaxEnergy, setRefillRate); }}
                     />
                 </div>
-                <div className=" col-6 col-sm-6 col-md-6 col-lg-6"> 
+                <div className=" col-6"> 
                      <RefUpgradeButton
                     id="refClicker02"
                     name="REfer02"

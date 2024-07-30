@@ -1,6 +1,6 @@
 .Route_nav{
     position:fixed;
-    bottom: 2px;
+    bottom: 0px;
     width: 100%;
     z-index: 999;
 }
@@ -9,19 +9,32 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 40px;
+    height: 50px;
     margin: 0;
-    padding: 0;
+    padding: 3px;
     width: 100%;
+    background-color: rgba(25, 25, 25);
+
   }
 
   .link {
     text-decoration: none;
-    width: 19.5%;
+    width: 20%;
     height: 90%;
-    background-color: rgb(129, 129, 129);
+   
+  }
+
+  .link svg {
+    fill: rgb(80, 80, 80);
+  }
+  .link.active{
+    background-color: rgb(94, 94, 94);
     border-radius: 5px;
   }
+  .link.active svg {
+    fill:rgb(255, 255, 255); /* Change to your desired active color */
+  }
+
 .Route_nav ul li{
   list-style: none;
   width: 100%;

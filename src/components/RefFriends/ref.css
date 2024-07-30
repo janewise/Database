@@ -15,6 +15,19 @@
     text-align: center;
 }
 
+.refersubmitbutton{
+    background-color: rgba(61, 0, 61, 0.9);
+    color: #fff;
+    padding: 5px 10px;
+    border: 1px solid rgba(211, 211, 211, 0.6);
+    border-radius: 5px;
+    font-size: 17px;
+    font-weight: 500;
+    margin-top:1rem;
+    width: 200px;
+    text-align: center;
+}
+
 .reflink{
     margin-bottom: 2px;
     font-size: 1.2rem;

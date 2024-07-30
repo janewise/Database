@@ -1,28 +1,31 @@
-import React, { useRef, useEffect, useReducer, useState } from "react";
-import { Route, Routes, Link, Navigate } from "react-router-dom";
+import React from "react";
+import { Route, Routes, NavLink, Navigate } from "react-router-dom";
 import { Freemine } from "../SecRoutes/freeMine";
 import { Refmine } from "../SecRoutes/refMine";
-//
 import "./SecNavcss/Minenav.css";
 
 export function Mine() {
-
   return (
     <>
       <div className="overlay">
         <div className="container-fluid">
-
           <nav className="mine_nav">
             <ul>
               <li>
-                <Link to="/mine/freemine" className="minelink">
+                <NavLink 
+                  to="/mine/freemine" 
+                  className={({ isActive }) => isActive ? "minelink active" : "minelink"}
+                >
                   Free
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link to="/mine/refmine" className="minelink">
+                <NavLink 
+                  to="/mine/refmine" 
+                  className={({ isActive }) => isActive ? "minelink active" : "minelink"}
+                >
                   Ref
-                </Link>
+                </NavLink>
               </li>
             </ul>
           </nav>
